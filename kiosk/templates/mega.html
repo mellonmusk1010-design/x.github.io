@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffe14a" />
+  <title>메가커피 키오스크 | 이음</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="{{ url_for('kiosk.static', filename='css/mega.css') }}?v=3" />
+  <link rel="stylesheet" href="/static/main/css/card-pay.css?v=7" />
+</head>
+<body>
+  <div class="guide-bar" id="guide-bar" hidden>
+    <div class="guide-bar__mission" id="guide-mission">미션</div>
+    <div class="guide-bar__step" id="guide-step">안내</div>
+  </div>
+
+  <section class="screen welcome is-active" data-screen="welcome">
+    <button type="button" class="welcome__exit" id="btn-exit">나가기</button>
+    <div class="welcome__logo">MEGA<span>MGC COFFEE</span></div>
+    <h1 class="welcome__title">주문 연습</h1>
+    <div id="mission-board" class="mission-board" hidden></div>
+    <div class="welcome__choices">
+      <button type="button" class="welcome__btn" data-dining="here">매장<small>여기서 마실게요</small></button>
+      <button type="button" class="welcome__btn" data-dining="takeout">포장<small>가져갈게요</small></button>
+    </div>
+  </section>
+
+  <section class="screen" data-screen="order">
+    <header class="mega-top">
+      <div class="mega-top__brand">MEGA</div>
+      <button type="button" class="mega-top__home" id="btn-home">처음</button>
+    </header>
+    <div class="mega-tabs" id="mega-tabs"></div>
+    <div class="mega-main">
+      <h2 class="mega-main__title" id="cat-title">메뉴</h2>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+    <footer class="cart-bar">
+      <div class="cart-bar__info">
+        <div class="cart-bar__count" id="cart-count">비어 있음</div>
+        <div class="cart-bar__total" id="cart-total">0원</div>
+      </div>
+      <button type="button" class="cart-bar__btn cart-bar__btn--primary" id="btn-pay" disabled>결제</button>
+    </footer>
+  </section>
+
+  <section class="screen pay-screen" data-screen="pay">
+    <h2>결제</h2>
+    <p class="pay-amount" id="pay-amount">0원</p>
+    <button type="button" class="pay-card-btn" id="btn-qr">📱 QR 결제</button>
+    <button type="button" class="pay-card-btn" id="btn-coupon">🎟️ 쿠폰 결제</button>
+    <button type="button" class="pay-back" id="pay-back">← 뒤로</button>
+  </section>
+
+  <section class="screen pay-screen" data-screen="qr">
+    <h2>QR 결제</h2>
+    <p class="pay-amount" id="qr-pay-amount" style="font-size:1.5rem"></p>
+    <div id="qr-pay-mount"></div>
+    <button type="button" class="pay-back" id="qr-back">← 뒤로</button>
+  </section>
+
+  <section class="screen pay-screen" data-screen="coupon">
+    <h2>쿠폰 번호</h2>
+    <p class="pay-amount" id="coupon-pay-amount" style="font-size:1.5rem"></p>
+    <div id="coupon-pay-mount"></div>
+    <button type="button" class="pay-back" id="coupon-back">← 뒤로</button>
+  </section>
+
+  <section class="screen success" data-screen="success">
+    <div class="receipt" id="receipt">
+      <div class="receipt__tear" aria-hidden="true"></div>
+      <div class="receipt__head">
+        <div class="receipt__brand">MEGA MGC COFFEE</div>
+        <div class="receipt__store">메가커피 키오스크 실습</div>
+        <div class="receipt__meta" id="receipt-meta"></div>
+      </div>
+      <div class="receipt__divider"></div>
+      <div class="receipt__order">
+        <span>주문번호</span>
+        <strong id="order-num">000</strong>
+      </div>
+      <div class="receipt__divider"></div>
+      <div class="receipt__items" id="receipt-items"></div>
+      <div class="receipt__divider receipt__divider--double"></div>
+      <div class="receipt__total">
+        <span>합계</span>
+        <strong id="receipt-total">0원</strong>
+      </div>
+      <div class="receipt__divider"></div>
+      <p class="mission-result" id="mission-result"></p>
+      <div class="receipt__footer">감사합니다 · 실습용 영수증</div>
+      <div class="receipt__tear receipt__tear--bottom" aria-hidden="true"></div>
+    </div>
+    <div class="success__actions">
+      <button type="button" class="success__btn success__btn--primary" id="btn-again">다시</button>
+      <button type="button" class="success__btn success__btn--ghost" id="btn-finish">나가기</button>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="modal__head">
+        <span>담기</span>
+        <button type="button" class="modal__close" id="modal-close">×</button>
+      </div>
+      <div class="modal__body" id="modal-body"></div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn-cancel" id="modal-cancel">취소</button>
+        <button type="button" class="btn btn-confirm" id="modal-add">담기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/static/main/js/level.js?v=33"></script>
+  <script src="/static/main/js/coupon-pay.js?v=3"></script>
+  <script src="/static/main/js/qr-pay.js?v=6"></script>
+  <script src="{{ url_for('kiosk.static', filename='js/mega.js') }}?v=3"></script>
+  <script src="/static/main/js/pwa.js"></script>
+</body>
+</html>

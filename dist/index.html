@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eef6f1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="이음" />
+  <meta name="description" content="사회교육시설 시니어 디지털 실습" />
+  <title>이음</title>
+  <link rel="apple-touch-icon" href="assets/main/icons/logo.png" />
+  <link rel="icon" type="image/png" href="assets/main/icons/logo.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="assets/main/css/style.css?v=34" />
+</head>
+<body class="page-home">
+  <div class="bg-wash" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img class="nav__logo-img" src="assets/main/icons/logo.png" alt="이음" width="48" height="48" />
+        <span class="nav__word">이음</span>
+      </a>
+      <nav class="nav__links">
+        <button type="button" class="btn btn--ghost" id="pwa-install" hidden>앱 설치</button>
+        <button type="button" class="btn btn--primary js-practice-gate">시작</button>
+      </nav>
+    </div>
+    <div class="nav__rail" aria-hidden="true"></div>
+  </header>
+
+  <main class="home-main">
+    <section class="hero container">
+      <div class="hero__panel">
+        <p class="hero__slogan">정보 격차를 깨다</p>
+        <div class="hero__rule" aria-hidden="true"></div>
+        <h1 class="hero__title">
+          <span class="hero__brand">
+            <img class="hero__logo" src="assets/main/icons/logo.png" alt="" width="88" height="88" />
+            <span class="hero__name">이음</span>
+          </span>
+        </h1>
+        <div class="level-badge level-badge--center" id="level-badge"></div>
+      </div>
+    </section>
+
+    <section class="paths container" id="paths">
+      <button type="button" class="entry-card js-practice-gate">
+        <div class="entry-card__glow" aria-hidden="true"></div>
+        <div class="entry-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+            <rect x="10" y="4" width="28" height="40" rx="4" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M18 12h12M20 36h8M18 20h12v10H18z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 class="entry-card__title">실습 시작</h2>
+        <p class="entry-card__desc">키오스크 · 쿠팡</p>
+        <span class="btn btn--primary btn--xl entry-card__cta">다음 →</span>
+      </button>
+
+      <div class="home-features" aria-hidden="true">
+        <div class="home-feature home-feature--blue">
+          <span class="home-feature__dot"></span>
+          키오스크
+        </div>
+        <div class="home-feature home-feature--green">
+          <span class="home-feature__dot"></span>
+          쿠팡
+        </div>
+        <div class="home-feature">
+          <span class="home-feature__dot"></span>
+          결제 연습
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="gate-modal" id="gate-modal" hidden>
+    <div class="gate-modal__backdrop" data-gate-close></div>
+    <div class="gate-modal__panel" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+      <div class="gate-modal__icon" aria-hidden="true">📖</div>
+      <h2 class="gate-modal__title" id="gate-title">모르는 단어를<br />학습할까요?</h2>
+      <div class="gate-modal__actions">
+        <button type="button" class="btn btn--primary btn--xl" id="gate-yes">예, 학습할게요</button>
+        <button type="button" class="btn btn--secondary btn--xl" id="gate-no">아니오, 바로 실습</button>
+        <button type="button" class="btn btn--text" id="gate-skip">다음에 보지 않기</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner container">
+      <span class="footer__brand">
+        <img src="assets/main/icons/logo.png" alt="" class="footer__logo" width="28" height="28" />
+        이음
+      </span>
+      <span class="footer__copy">시니어 디지털 실습</span>
+    </div>
+  </footer>
+
+  <script src="assets/main/js/level.js?v=33"></script>
+  <script src="assets/main/js/main.js?v=23"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!window.IeumLevel) return;
+      var badge = document.getElementById("level-badge");
+      if (IeumLevel.showPendingGain) {
+        IeumLevel.showPendingGain(badge);
+      } else {
+        IeumLevel.renderBadge(badge);
+      }
+    });
+  </script>
+</body>
+</html>

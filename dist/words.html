@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eef6f1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="이음" />
+  <title>단어 학습 — 이음</title>
+  <link rel="apple-touch-icon" href="assets/main/icons/logo.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="assets/main/css/style.css?v=27" />
+</head>
+<body class="theme-learn">
+  <div class="bg-wash" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img class="nav__logo-img" src="assets/main/icons/logo.png" alt="이음" width="48" height="48" />
+        <span class="nav__word">이음</span>
+      </a>
+      <nav class="nav__links">
+        <a href="practice.html" class="btn btn--primary">실습</a>
+      </nav>
+    </div>
+    <div class="nav__rail" aria-hidden="true"></div>
+  </header>
+
+  <main class="words-main">
+    <section class="page-hero container">
+      <a href="index.html" class="page-hero__back">홈으로</a>
+      <h1 class="page-hero__title">단어 학습</h1>
+      <div class="words-progress" id="words-progress" aria-live="polite"></div>
+    </section>
+
+    <section class="words container" id="words-app">
+      <article class="word-card" id="word-card">
+        <div class="word-card__tag" id="word-tag">키오스크</div>
+        <h2 class="word-card__term" id="word-term">키오스크</h2>
+        <p class="word-card__meaning" id="word-meaning"></p>
+        <p class="word-card__example" id="word-example"></p>
+      </article>
+
+      <div class="words-actions">
+        <button type="button" class="btn btn--secondary words-btn" id="btn-prev" disabled>이전</button>
+        <button type="button" class="btn btn--primary words-btn" id="btn-next">다음</button>
+      </div>
+
+      <div class="words-done" id="words-done" hidden>
+        <p class="words-done__text">완료!</p>
+        <a href="practice.html" class="btn btn--primary btn--xl words-btn words-btn--block">실습하기</a>
+        <button type="button" class="btn btn--secondary words-btn words-btn--block" id="btn-restart">다시</button>
+      </div>
+
+      <a href="practice.html" class="words-skip">건너뛰기</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner container">
+      <span class="footer__brand">
+        <img src="assets/main/icons/logo.png" alt="" class="footer__logo" width="28" height="28" />
+        이음
+      </span>
+    </div>
+  </footer>
+
+  <script src="assets/main/js/words.js?v=5"></script>
+</body>
+</html>

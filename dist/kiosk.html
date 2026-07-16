@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#da291c" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="이음 키오스크" />
+  <title>키오스크 실습 | 이음</title>
+  <meta name="description" content="키오스크 주문 실습" />
+  <link rel="apple-touch-icon" href="assets/main/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="assets/kiosk/css/kiosk.css?v=12" />
+  <link rel="stylesheet" href="assets/main/css/card-pay.css?v=7" />
+</head>
+<body>
+  <!-- 1. Welcome -->
+  <section class="screen welcome is-active" id="screen-welcome" data-screen="welcome">
+    <div class="welcome__badge">실습 모드 · 실제 결제 없음</div>
+    <button type="button" class="welcome__exit" id="btn-exit-welcome">나가기</button>
+
+    <div class="welcome__logo-mark" aria-hidden="true">
+      <svg viewBox="0 0 80 48" width="96" height="58">
+        <path d="M12 44 V14 Q12 4 22 4 Q32 4 32 14 V44" fill="none" stroke="#ffc72c" stroke-width="10" stroke-linecap="round"/>
+        <path d="M32 44 V14 Q32 4 42 4 Q52 4 52 14 V44" fill="none" stroke="#ffc72c" stroke-width="10" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1 class="welcome__title">주문 실습을 시작합니다</h1>
+    <div id="mission-board" class="mission-board" hidden></div>
+
+    <div class="welcome__choices">
+      <button type="button" class="welcome__btn" data-dining="here">
+        <span class="welcome__btn-icon" aria-hidden="true">🍽️</span>
+        <span class="welcome__btn-label">매장에서 식사</span>
+        <span class="welcome__btn-desc">여기에서 먹고 갈게요</span>
+      </button>
+      <button type="button" class="welcome__btn" data-dining="takeout">
+        <span class="welcome__btn-icon" aria-hidden="true">🛍️</span>
+        <span class="welcome__btn-label">포장하기</span>
+        <span class="welcome__btn-desc">가져갈게요</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Guide bar (mission steps) -->
+  <div class="guide-bar" id="guide-bar" hidden>
+    <div class="guide-bar__mission" id="guide-mission">미션</div>
+    <div class="guide-bar__step" id="guide-step-text">안내를 따라 진행하세요</div>
+  </div>
+
+  <!-- 2. Order -->
+  <section class="screen" id="screen-order" data-screen="order">
+    <header class="kiosk-top">
+      <div class="kiosk-top__brand">
+        <span class="kiosk-top__m" aria-hidden="true">M</span>
+        메뉴 선택
+      </div>
+      <div class="kiosk-top__meta">
+        <span class="kiosk-top__pill" id="dining-pill">매장 식사</span>
+        <button type="button" class="kiosk-top__home" id="btn-home">처음 화면</button>
+      </div>
+    </header>
+
+    <div class="kiosk-body">
+      <nav class="kiosk-nav" id="kiosk-nav" aria-label="메뉴 분류"></nav>
+      <div class="kiosk-main">
+        <div class="kiosk-main__header">
+          <h2 class="kiosk-main__title" id="category-title">메뉴</h2>
+          <p class="kiosk-main__sub">원하는 메뉴를 눌러 주세요</p>
+        </div>
+        <div class="product-grid" id="product-grid"></div>
+      </div>
+    </div>
+
+    <footer class="cart-bar">
+      <div class="cart-bar__info">
+        <div class="cart-bar__count" id="cart-count">메뉴를 골라 주세요</div>
+        <div class="cart-bar__total" id="cart-total">0원</div>
+      </div>
+      <div class="cart-bar__items" id="cart-items-preview"></div>
+      <button type="button" class="cart-bar__btn cart-bar__btn--ghost" id="btn-cart" disabled>장바구니</button>
+      <button type="button" class="cart-bar__btn cart-bar__btn--primary" id="btn-pay" disabled>결제하기</button>
+    </footer>
+  </section>
+
+  <!-- 3. Payment method -->
+  <section class="screen pay" id="screen-pay" data-screen="pay">
+    <header class="kiosk-top">
+      <div class="kiosk-top__brand">결제 방법</div>
+    </header>
+    <div class="pay__inner">
+      <h2 class="pay__title">어떻게 결제할까요?</h2>
+      <p class="pay__amount" id="pay-amount">0원</p>
+      <div class="pay__methods">
+        <button type="button" class="pay__method" id="pay-qr">
+          <span aria-hidden="true">📱</span>
+          QR 결제
+        </button>
+        <button type="button" class="pay__method" id="pay-coupon">
+          <span aria-hidden="true">🎟️</span>
+          쿠폰 결제
+        </button>
+      </div>
+      <button type="button" class="pay__back" id="pay-back">← 메뉴로 돌아가기</button>
+    </div>
+  </section>
+
+  <!-- 4a. QR -->
+  <section class="screen pay" id="screen-qr" data-screen="qr">
+    <header class="kiosk-top">
+      <div class="kiosk-top__brand">QR 결제</div>
+    </header>
+    <div class="pay__inner pay__inner--card">
+      <p class="pay__card-title">QR 스캔</p>
+      <p class="pay__card-amount" id="qr-pay-amount"></p>
+      <div id="qr-pay-mount"></div>
+      <button type="button" class="pay__back" id="qr-back">← 뒤로</button>
+    </div>
+  </section>
+
+  <!-- 4b. Coupon -->
+  <section class="screen pay" id="screen-coupon" data-screen="coupon">
+    <header class="kiosk-top">
+      <div class="kiosk-top__brand">쿠폰 결제</div>
+    </header>
+    <div class="pay__inner pay__inner--card">
+      <p class="pay__card-title">쿠폰 번호 입력</p>
+      <p class="pay__card-amount" id="coupon-pay-amount"></p>
+      <div id="coupon-pay-mount"></div>
+      <button type="button" class="pay__back" id="coupon-back">← 뒤로</button>
+    </div>
+  </section>
+
+  <!-- 5. Success (영수증) -->
+  <section class="screen success" id="screen-success" data-screen="success">
+    <div class="receipt" id="receipt">
+      <div class="receipt__tear" aria-hidden="true"></div>
+      <div class="receipt__head">
+        <div class="receipt__brand">McDonald's</div>
+        <div class="receipt__store">맥도날드 키오스크 실습</div>
+        <div class="receipt__meta" id="receipt-meta"></div>
+      </div>
+      <div class="receipt__divider"></div>
+      <div class="receipt__order">
+        <span>주문번호</span>
+        <strong id="success-num">000</strong>
+      </div>
+      <div class="receipt__dining" id="success-dining">매장 식사</div>
+      <div class="receipt__divider"></div>
+      <div class="receipt__items" id="receipt-items"></div>
+      <div class="receipt__divider receipt__divider--double"></div>
+      <div class="receipt__total">
+        <span>합계</span>
+        <strong id="receipt-total">0원</strong>
+      </div>
+      <div class="receipt__divider"></div>
+      <p class="mission-result" id="mission-result"></p>
+      <div class="receipt__footer">감사합니다 · 실습용 영수증</div>
+      <div class="receipt__tear receipt__tear--bottom" aria-hidden="true"></div>
+    </div>
+    <div class="success__actions">
+      <button type="button" class="success__btn success__btn--primary" id="btn-finish">실습 종료</button>
+      <button type="button" class="success__btn success__btn--ghost" id="btn-again">다시 주문 연습</button>
+    </div>
+  </section>
+
+  <!-- Product modal -->
+  <div class="modal-overlay" id="modal-product" role="dialog" aria-modal="true" aria-labelledby="modal-product-title">
+    <div class="modal">
+      <div class="modal__head">
+        <h3 class="modal__title" id="modal-product-title">메뉴 선택</h3>
+        <button type="button" class="modal__close" id="modal-product-close" aria-label="닫기">×</button>
+      </div>
+      <div class="modal__body" id="modal-product-body"></div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn-cancel" id="modal-product-cancel">취소</button>
+        <button type="button" class="btn btn-confirm" id="modal-product-add">장바구니 담기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart modal -->
+  <div class="modal-overlay" id="modal-cart" role="dialog" aria-modal="true">
+    <div class="modal modal--wide">
+      <div class="modal__head">
+        <h3 class="modal__title">장바구니</h3>
+        <button type="button" class="modal__close" id="modal-cart-close" aria-label="닫기">×</button>
+      </div>
+      <div class="modal__body" id="modal-cart-body"></div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn-cancel" id="modal-cart-more">메뉴 더 고르기</button>
+        <button type="button" class="btn btn-confirm" id="modal-cart-pay">결제하기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="assets/main/js/level.js?v=33"></script>
+  <script src="assets/main/js/coupon-pay.js?v=3"></script>
+  <script src="assets/main/js/qr-pay.js?v=6"></script>
+  <script src="assets/kiosk/js/kiosk.js?v=13"></script>
+</body>
+</html>
+

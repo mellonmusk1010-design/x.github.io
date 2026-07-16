@@ -1,0 +1,485 @@
+/* 쿠폰 번호 입력 · QR 결제 (시니어용 · 큰 UI) */
+
+/* 쿠폰 티켓 느낌 (카드 레이아웃 재사용) */
+.coupon-pay__face {
+  background: linear-gradient(145deg, #7c3aed 0%, #5b21b6 50%, #4c1d95 100%) !important;
+}
+
+.coupon-pay__face::before {
+  background: repeating-linear-gradient(
+    90deg,
+    #fbbf24 0 12px,
+    #f59e0b 12px 24px
+  ) !important;
+  height: 28px !important;
+  top: 36px !important;
+  opacity: 0.95;
+}
+
+/* QR 결제 — 강제 가운데 정렬 */
+#qr-pay-mount,
+.qr-pay-mount {
+  width: 100% !important;
+  max-width: 420px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+.qr-pay {
+  width: 100% !important;
+  max-width: 400px !important;
+  margin: 0 auto !important;
+  padding: 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.qr-pay__box {
+  width: 100% !important;
+  max-width: 360px !important;
+  margin: 0 auto !important;
+  background: #fff;
+  border: 2px solid rgba(15, 23, 42, 0.08);
+  border-radius: 20px;
+  padding: 24px 18px 20px;
+  text-align: center !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.qr-pay__title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 16px;
+  word-break: keep-all;
+  width: 100%;
+  text-align: center;
+}
+
+.qr-pay__frame {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px;
+  min-height: 280px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 2px dashed #cbd5e1;
+  width: 100% !important;
+  max-width: 280px !important;
+  margin: 0 auto !important;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+.qr-pay__frame--tap:hover {
+  border-color: #1a73e8;
+  background: #eef5ff;
+}
+
+.qr-pay__frame--tap:active {
+  transform: scale(0.99);
+}
+
+.qr-pay__tap-label {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1a73e8;
+}
+
+.qr-pay__fake-code {
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  color: #111;
+  font-weight: 900;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.qr-pay__img-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.qr-pay__img {
+  display: block !important;
+  width: 200px !important;
+  height: 200px !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  border-radius: 8px;
+  background: #fff;
+  object-fit: contain !important;
+  float: none !important;
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+}
+
+.qr-pay__loading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.qr-pay__hint {
+  margin-top: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #64748b;
+  line-height: 1.45;
+  word-break: keep-all;
+  width: 100%;
+  text-align: center;
+}
+
+.qr-pay__wait {
+  margin-top: 12px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1a73e8;
+  animation: qr-pulse 1.4s ease infinite;
+  width: 100%;
+  text-align: center;
+}
+
+.qr-pay__fake {
+  margin-top: 16px;
+  width: 100%;
+  max-width: 320px;
+  min-height: 56px;
+  border: none;
+  border-radius: 12px;
+  background: #1a73e8;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.qr-pay__fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.qr-pay__url {
+  width: 100%;
+  text-align: center;
+  word-break: break-all;
+}
+
+.qr-pay__fake:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.qr-pay__hint strong {
+  color: #0f172a;
+  word-break: break-all;
+}
+
+@keyframes qr-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.qr-pay__url {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #94a3b8;
+  word-break: break-all;
+  line-height: 1.35;
+  max-width: 100%;
+}
+
+.qr-pay__fallback {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #475569;
+  line-height: 1.5;
+  padding: 12px;
+  word-break: keep-all;
+}
+
+.qr-pay__processing {
+  text-align: center;
+  padding: 48px 16px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* 카드 위 + 키패드 아래 (찌그러짐 방지) */
+.card-pay {
+  width: min(420px, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 8px 4px 16px;
+  box-sizing: border-box;
+}
+
+/* 실제 카드 비율 ≈ 1.586 : 1 (가로:세로) */
+.card-pay__face {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1.586 / 1;
+  height: auto;
+  min-height: 0;
+  background: linear-gradient(145deg, #1e293b 0%, #0f172a 55%, #334155 100%);
+  border-radius: 14px;
+  padding: 6% 5% 5%;
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.28);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+.card-pay__face::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18%;
+  height: 22%;
+  background: #0b1220;
+}
+
+.card-pay__stripe-label {
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 6px;
+  font-size: clamp(0.75rem, 2.8vw, 0.9rem);
+  font-weight: 700;
+  opacity: 0.8;
+  line-height: 1.2;
+}
+
+.card-pay__number-panel {
+  position: relative;
+  background: #f8fafc;
+  color: #0f172a;
+  border-radius: 8px;
+  padding: 10px 10px;
+  font-size: clamp(0.95rem, 3.6vw, 1.2rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.card-pay__brand {
+  position: relative;
+  margin-top: 8px;
+  font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  font-weight: 700;
+  opacity: 0.75;
+  text-align: right;
+  line-height: 1;
+}
+
+.card-pay__panel {
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border: 2px solid rgba(15, 23, 42, 0.08);
+  border-radius: 16px;
+  padding: 16px 14px 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
+}
+
+/* 쿠폰 카드도 같은 비율 유지 */
+.coupon-pay.card-pay {
+  width: min(420px, 100%);
+}
+
+.coupon-pay .card-pay__face {
+  max-width: 360px;
+  aspect-ratio: 1.586 / 1;
+}
+
+.card-pay__label {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.card-pay__display {
+  min-height: 56px;
+  padding: 14px 12px;
+  border: 3px solid #e2e8f0;
+  border-radius: 14px;
+  font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: #0f172a;
+  background: #f8fafc;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 14px;
+  word-break: break-all;
+}
+
+.card-pay__display.is-focus {
+  border-color: #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.3);
+}
+
+/* 실제 키보드 입력용 input (크게) */
+.card-pay__input {
+  width: 100%;
+  min-height: 64px;
+  padding: 14px 12px;
+  border: 3px solid #e2e8f0;
+  border-radius: 14px;
+  font-size: clamp(1.25rem, 3.8vw, 1.55rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: #0f172a;
+  background: #f8fafc;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.card-pay__input:focus,
+.card-pay__input.is-focus {
+  border-color: #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.3);
+}
+
+.card-pay__input::placeholder {
+  color: #cbd5e1;
+  letter-spacing: 0.08em;
+}
+
+.card-pay__keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.card-pay__key {
+  min-height: 58px;
+  border: none;
+  border-radius: 14px;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 1.55rem;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.card-pay__key:active {
+  transform: scale(0.97);
+  background: #e2e8f0;
+}
+
+.card-pay__key--fn {
+  background: #e2e8f0;
+  font-size: 1.15rem;
+}
+
+.card-pay__key--ok {
+  background: linear-gradient(135deg, #34d399, #059669);
+  color: #fff;
+  grid-column: span 3;
+  min-height: 64px;
+  font-size: 1.35rem;
+}
+
+.card-pay__key--ok:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.card-pay__hint {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #64748b;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.card-pay__processing {
+  display: none;
+  text-align: center;
+  padding: 40px 16px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.card-pay__processing.is-on {
+  display: block;
+}
+
+.card-pay.is-busy .card-pay__face,
+.card-pay.is-busy .card-pay__panel {
+  display: none;
+}
+
+.card-pay.is-busy .card-pay__processing {
+  display: block;
+  grid-column: 1 / -1;
+}
+
+.card-pay__spin {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  border: 5px solid #e2e8f0;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
