@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>쿠팡 | 이음 실습</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="assets/coupang/css/coupang.css?v=6" />
+  <link rel="stylesheet" href="assets/main/css/card-pay.css?v=7" />
+</head>
+<body>
+  <div class="guide-bar" id="guide-bar" hidden>
+    <div class="guide-bar__mission" id="guide-mission">미션</div>
+    <div class="guide-bar__step" id="guide-step">안내</div>
+  </div>
+
+  <!-- ========== 1. 배송 선택 (시작) ========== -->
+  <section class="screen welcome is-active" data-screen="welcome">
+    <!-- 쿠팡 상단 유틸 바 -->
+    <div class="cp-util">
+      <span class="cp-util__left">실습 모드</span>
+      <div class="cp-util__right">
+        <button type="button" class="cp-util__link" id="btn-exit">나가기</button>
+      </div>
+    </div>
+    <!-- 쿠팡 메인 헤더: 로고 + 검색 -->
+    <header class="cp-gnb">
+      <div class="cp-gnb__logo" aria-label="coupang">coupang</div>
+      <div class="cp-gnb__search" aria-hidden="true">
+        <input class="cp-gnb__input" type="text" readonly tabindex="-1" placeholder="쿠팡에서 검색하세요!" value="" />
+        <span class="cp-gnb__search-btn" aria-hidden="true">🔍</span>
+      </div>
+    </header>
+    <div class="welcome__body">
+      <div class="cp-banner">
+        <strong>이음 실습</strong>
+        <span>실제 결제·배송 없음 · 연습만 합니다</span>
+      </div>
+      <div id="mission-board" class="mission-board" hidden></div>
+      <h1 class="welcome__title">배송 방법을 선택해 주세요</h1>
+      <div class="welcome__choices">
+        <button type="button" class="welcome__btn welcome__btn--rocket" data-ship="rocket">
+          <span class="rocket-badge">🚀 로켓배송</span>
+          <strong>내일 도착 보장</strong>
+          <small>로켓배송으로 빠르게 받는 연습</small>
+        </button>
+        <button type="button" class="welcome__btn" data-ship="normal">
+          <span class="normal-badge">일반배송</span>
+          <strong>일반 배송</strong>
+          <small>조금 더 걸리는 배송 연습</small>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. 쇼핑 (쿠팡 홈/목록) ========== -->
+  <section class="screen" data-screen="shop">
+    <div class="cp-util">
+      <button type="button" class="cp-util__link" id="btn-home">← 처음</button>
+      <div class="cp-util__right">
+        <span class="cp-util__link">장바구니</span>
+      </div>
+    </div>
+    <header class="cp-gnb">
+      <div class="cp-gnb__logo">coupang</div>
+      <div class="cp-gnb__search" aria-hidden="true">
+        <input class="cp-gnb__input" type="text" readonly tabindex="-1" placeholder="쿠팡에서 검색하세요!" />
+        <span class="cp-gnb__search-btn" aria-hidden="true">🔍</span>
+      </div>
+      <button type="button" class="cp-gnb__cart" id="btn-cart-icon" aria-label="장바구니">
+        🛒
+        <span class="cp-gnb__cart-count" id="header-cart-n">0</span>
+      </button>
+    </header>
+
+    <!-- 카테고리 (쿠팡 GNB 카테고리 줄) -->
+    <nav class="cp-category" id="cp-tabs" aria-label="카테고리"></nav>
+
+    <div class="cp-main">
+      <div class="cp-section-head">
+        <h2 class="cp-section-head__title" id="cat-title">오늘의 판매자 특가</h2>
+        <span class="cp-section-head__sub" id="cat-count"></span>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+
+    <!-- 하단 구매 바 (모바일 쿠팡 스타일) -->
+    <footer class="cart-bar">
+      <div class="cart-bar__info">
+        <div class="cart-bar__count" id="cart-count">장바구니 비어 있음</div>
+        <div class="cart-bar__total-wrap">
+          <span class="cart-bar__total-label">총 상품가격</span>
+          <div class="cart-bar__total" id="cart-total">0원</div>
+        </div>
+      </div>
+      <button type="button" class="cart-bar__btn" id="btn-pay" disabled>구매하기</button>
+    </footer>
+  </section>
+
+  <!-- ========== 3. 결제 ========== -->
+  <section class="screen pay-screen" data-screen="pay">
+    <div class="cp-util">
+      <button type="button" class="cp-util__link" id="pay-back">← 뒤로</button>
+      <span>주문/결제</span>
+      <span></span>
+    </div>
+    <div class="pay-body">
+      <div class="pay-box">
+        <div class="pay-box__row">
+          <span>총 결제금액</span>
+          <p class="pay-amount" id="pay-amount">0원</p>
+        </div>
+      </div>
+      <h2 class="pay-ask">결제 수단</h2>
+      <button type="button" class="pay-card-btn" id="btn-qr">QR 결제</button>
+      <button type="button" class="pay-card-btn pay-card-btn--sub" id="btn-card">카드 결제</button>
+    </div>
+  </section>
+
+  <section class="screen pay-screen" data-screen="qr">
+    <div class="cp-util">
+      <button type="button" class="cp-util__link" id="qr-back">← 뒤로</button>
+      <span>QR 결제</span>
+      <span></span>
+    </div>
+    <div class="pay-body pay-body--center">
+      <p class="pay-amount" id="qr-pay-amount"></p>
+      <div id="qr-pay-mount" class="qr-pay-mount"></div>
+    </div>
+  </section>
+
+  <section class="screen pay-screen" data-screen="card">
+    <div class="cp-util">
+      <button type="button" class="cp-util__link" id="card-back">← 뒤로</button>
+      <span>카드 결제</span>
+      <span></span>
+    </div>
+    <div class="pay-body pay-body--card">
+      <p class="pay-amount" id="card-pay-amount"></p>
+      <div id="card-pay-mount"></div>
+    </div>
+  </section>
+
+  <!-- ========== 4. 주문 완료 ========== -->
+  <section class="screen success" data-screen="success">
+    <div class="cp-util">
+      <span></span>
+      <span>주문완료</span>
+      <span></span>
+    </div>
+    <div class="order-done">
+      <div class="order-done__check">✓</div>
+      <h2 class="order-done__title">주문이 완료되었습니다</h2>
+      <p class="order-done__ship" id="success-ship">로켓배송</p>
+      <div class="order-done__num">
+        주문번호 <strong id="order-num">000</strong>
+      </div>
+      <div class="order-done__meta" id="receipt-meta"></div>
+      <div class="order-done__items" id="receipt-items"></div>
+      <div class="order-done__total">
+        <span>총 결제금액</span>
+        <strong id="receipt-total">0원</strong>
+      </div>
+      <p class="mission-result" id="mission-result"></p>
+      <p class="order-done__note">실습용 화면 · 실제 배송·결제 없음</p>
+    </div>
+    <div class="success__actions">
+      <button type="button" class="success__btn success__btn--primary" id="btn-again">쇼핑 계속하기</button>
+      <button type="button" class="success__btn success__btn--ghost" id="btn-finish">나가기</button>
+    </div>
+  </section>
+
+  <!-- 담기 모달 -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <div class="modal__head">
+        <span>장바구니 담기</span>
+        <button type="button" class="modal__close" id="modal-close">×</button>
+      </div>
+      <div class="modal__body" id="modal-body"></div>
+      <div class="modal__foot">
+        <button type="button" class="btn btn-cancel" id="modal-cancel">취소</button>
+        <button type="button" class="btn btn-confirm" id="modal-add">장바구니 담기</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="assets/main/js/level.js?v=33"></script>
+  <script src="assets/main/js/card-pay.js?v=1"></script>
+  <script src="assets/main/js/qr-pay.js?v=6"></script>
+  <script src="assets/coupang/js/coupang.js?v=9"></script>
+</body>
+</html>

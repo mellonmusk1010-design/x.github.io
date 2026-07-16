@@ -1,0 +1,20 @@
+{
+  "name": "IEUM",
+  "short_name": "IEUM",
+  "description": "Digital device practice site",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef6f1",
+  "theme_color": "#1b9a5c",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "assets/main/icons/logo.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

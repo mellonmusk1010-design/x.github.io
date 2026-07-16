@@ -1,0 +1,28 @@
+{
+  "name": "이음",
+  "short_name": "이음",
+  "description": "사회교육시설에서 시니어와 함께하는 디지털 실습 앱",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef6f1",
+  "theme_color": "#1b9a5c",
+  "lang": "ko",
+  "dir": "ltr",
+  "categories": ["education", "utilities"],
+  "icons": [
+    {
+      "src": "/static/main/icons/logo.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/main/icons/logo.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

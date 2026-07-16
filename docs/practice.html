@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#eef6f1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="이음" />
+  <title>실습 선택 — 이음</title>
+  <link rel="apple-touch-icon" href="assets/main/icons/logo.png" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="assets/main/css/style.css?v=34" />
+</head>
+<body class="theme-practice">
+  <div class="bg-wash" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img class="nav__logo-img" src="assets/main/icons/logo.png" alt="이음" width="48" height="48" />
+        <span class="nav__word">이음</span>
+      </a>
+      <nav class="nav__links">
+        <a href="index.html" class="btn btn--ghost">홈</a>
+      </nav>
+    </div>
+    <div class="nav__rail" aria-hidden="true"></div>
+  </header>
+
+  <main class="practice-main">
+    <section class="page-hero container">
+      <a href="index.html" class="page-hero__back">홈으로</a>
+      <h1 class="page-hero__title">무엇을 연습할까요?</h1>
+      <div class="level-badge" id="level-badge" aria-label="내 레벨"></div>
+    </section>
+
+    <section class="modules container">
+      <div class="pick-grid pick-grid--multi">
+        <a href="kiosk.html" class="pick-tile pick-tile--blue">
+          <div class="pick-tile__top"></div>
+          <div class="pick-tile__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="44" height="44" fill="none">
+              <rect x="10" y="4" width="28" height="40" rx="4" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M18 12h12M20 36h8M18 20h12v10H18z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="pick-tile__title">키오스크</h3>
+          <p class="pick-tile__hint">맥도날드 · 메가커피</p>
+          <span class="btn btn--primary pick-tile__cta">시작</span>
+        </a>
+
+        <a href="coupang.html" class="pick-tile pick-tile--green">
+          <div class="pick-tile__top"></div>
+          <div class="pick-tile__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="44" height="44" fill="none">
+              <path d="M12 14h28l-3 18H15L12 14z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M12 14L10 8H6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="18" cy="38" r="2.5" fill="currentColor"/>
+              <circle cx="34" cy="38" r="2.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="pick-tile__title">쿠팡</h3>
+          <p class="pick-tile__hint">생필품 구매</p>
+          <span class="btn btn--primary btn--green pick-tile__cta">시작</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner container">
+      <span class="footer__brand">
+        <img src="assets/main/icons/logo.png" alt="" class="footer__logo" width="28" height="28" />
+        이음
+      </span>
+      <span class="footer__copy">시니어 디지털 실습</span>
+    </div>
+  </footer>
+
+  <script src="assets/main/js/level.js?v=33"></script>
+  <script src="assets/main/js/main.js?v=23"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (!window.IeumLevel) return;
+      var badge = document.getElementById("level-badge");
+      // 실습 종료 후 복귀 시 경험치 획득 토스트
+      if (IeumLevel.showPendingGain) {
+        IeumLevel.showPendingGain(badge);
+      } else {
+        IeumLevel.renderBadge(badge);
+      }
+    });
+  </script>
+</body>
+</html>
